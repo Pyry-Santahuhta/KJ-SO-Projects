@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -19,7 +18,7 @@ int main(int argc, char *argv[]){
         while(fgets(buffer, BUFSIZ, file)){
             printf("%s", buffer); 
         }
-        
+
         fclose(file);    
     }
 
