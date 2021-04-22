@@ -40,5 +40,6 @@ int main(int argc, char *argv[]){
     }
     fwrite(&count, 4, 1, stdout);
     fwrite(&previous_c, 1, 1, stdout);
-    fclose(stdout);
+    
+    return 0;
 }
