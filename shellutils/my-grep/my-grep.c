@@ -20,25 +20,33 @@ int main(int argc, char *argv[]){
     /*If only the searchable term is specified, search from stdin*/
     if(argc == 2){
         file = stdin;
+        /*Read through files line at a time*/
+        while(getline(&line, &limit, file) > 0){
+            /*Try to find string within string with strstr, if so, print the line*/
+            if(strstr(line, argv[1])){
+                printf("%s", line);
+            }
+        }
     }
     
     /*Search from all files*/
-    if (argc >= 3){
-        if((file = fopen(argv[2], "r")) == NULL){
+    for (size_t i = 2; i < argc; i++){
+        if((file = fopen(argv[i], "r")) == NULL){
             printf("my-grep: cannot open file\n");
             exit(1);
         }
-    }
-    /*Read through files line at a time*/
-    while(getline(&line, &limit, file) > 0){
-        /*Try to find string within string with strstr, if so, print the line*/
-        if(strstr(line, argv[1])){
-            printf("%s", line);
+    
+        /*Read through files line at a time*/
+        while(getline(&line, &limit, file) > 0){
+            /*Try to find string within string with strstr, if so, print the line*/
+            if(strstr(line, argv[1])){
+                printf("%s", line);
+            }
         }
+        fclose(file);
     }
 
     free(line);
-    fclose(file);
     
     return 0;
 }
