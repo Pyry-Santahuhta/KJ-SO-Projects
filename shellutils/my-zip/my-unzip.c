@@ -12,10 +12,10 @@ int main(int argc, char *argv[]){
     int count = 0;
 
     if (argc <= 1){
-        printf("my-unzip: file1 [file2 ...]");
+        printf("my-unzip: file1 [file2 ...]\n");
         exit(1);
     }
-    
+
     /*Go through args opening them as files*/
     for (size_t i = 1; i < argc; i++){
         if((file = fopen(argv[i], "r")) == NULL){
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
             exit(1);
         }
 
-        /*Read the integer from before the character into count*/
+        /*Read the 4-byte integer from before the character into count*/
         while(fread(&count, 4, 1, file)){
             /*Read the character into c*/
             fread(&c, 1, 1, file);

@@ -15,8 +15,34 @@
     int argcount = 0;
     FILE *output = NULL;
 
-    void print_error(){
-        char error_message[30] = "An error has occurred\n";
+    void print_error(int error_code){
+        char error_message[30];
+        
+        switch (error_code){
+            case 1:
+                strcpy(error_message,"Couldn't open output file\n");
+            break;
+
+            case 2:
+                strcpy(error_message,"Exit doesn't take arguments\n");
+            break;
+            
+            case 3:
+                strcpy(error_message,"usage: cd directory\n");
+            break;
+
+            case 4:
+                strcpy(error_message,"Couldn't move to directory\n");
+            break;
+
+            case 5:
+                strcpy(error_message,"Couldn't execute command\n");
+            break;
+
+            default:
+                strcpy(error_message,"An error has occurred\n");
+        }
+        
         write(STDERR_FILENO, error_message, strlen(error_message)); 
     }
 

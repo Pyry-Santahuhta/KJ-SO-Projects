@@ -14,7 +14,7 @@ int main(int argc, char *argv[]){
     
     /*Must have more args than 1*/
     if (argc <= 1){
-        printf("my-zip: file1 [file2 ...]");
+        printf("my-zip: file1 [file2 ...]\n");
         exit(1);
     }
 

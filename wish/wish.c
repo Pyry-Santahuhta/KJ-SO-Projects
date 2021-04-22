@@ -34,7 +34,7 @@ char **parse_arguments(char *line, FILE* input){
     char **args = malloc(buffer*sizeof(char*));
 
     if(!args){
-        print_error();
+        print_error(0);
         exit(EXIT_FAILURE);
     }
   
@@ -45,7 +45,7 @@ char **parse_arguments(char *line, FILE* input){
             execute(args, line, input);
             args = malloc(buffer*sizeof(char*));
             if(!args){
-                print_error();
+                print_error(0);
                 exit(EXIT_FAILURE);
             }
         }
@@ -53,7 +53,7 @@ char **parse_arguments(char *line, FILE* input){
         else if(strcmp(token, ">") == 0){
             token = strtok(NULL, TOK_DELIM);
             if ((output = fopen(token, "w")) == NULL){
-                print_error();
+                print_error(1);
                 return NULL;
             }
         }
@@ -68,7 +68,7 @@ char **parse_arguments(char *line, FILE* input){
             args = realloc(args, buffer*sizeof(char*));
 
             if(!args){
-                print_error();
+                print_error(0);
                 exit(EXIT_FAILURE);
             }       
         }
@@ -84,7 +84,7 @@ void execute(char *args[], char *line, FILE* input){
     if(args[0] != NULL){
         if(strcmp(args[0], "exit") == 0){
             if(argcount > 1){
-                print_error();
+                print_error(2);
             }
             else{
                 /*Freeing and closing everything before exit*/
@@ -101,11 +101,11 @@ void execute(char *args[], char *line, FILE* input){
         /*Moving working directory with chdir*/
         else if(strcmp(args[0], "cd") == 0){
             if(argcount == 1 || argcount > 2){
-                print_error();
+                print_error(3);
             }
             else{
                 if(chdir(args[1]) == -1){
-                    print_error();
+                    print_error(4);
                 }
             }
         }
@@ -132,7 +132,7 @@ void execute(char *args[], char *line, FILE* input){
                     /*In child process*/
                     redirect();
                     if(execvp(args[0],args) == -1){
-                        print_error();
+                        print_error(0);
                     }
                     
                 }
@@ -147,7 +147,7 @@ void execute(char *args[], char *line, FILE* input){
                 }
             }
             else{
-                print_error();
+                print_error(5);
             }
         }
     }
@@ -158,17 +158,17 @@ void execute(char *args[], char *line, FILE* input){
 void redirect(){
     int outputFileNo;
     if ((outputFileNo = fileno(output)) == -1){
-        print_error();
+        print_error(0);
         return;
     }
     /*Changing std output path*/
     if (outputFileNo != STDOUT_FILENO){
         if (dup2(outputFileNo, STDOUT_FILENO) == -1){
-            print_error();
+            print_error(0);
             return;
         }
         if (dup2(outputFileNo, STDERR_FILENO) == -1){
-            print_error();
+            print_error(0);
             return;
         }
     }
